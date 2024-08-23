@@ -1,0 +1,28 @@
+class Solution {
+public:
+    string reorganizeString(string s) {
+        vector<vector<int>>dp(26,vector<int>(2,0));
+        for(int i=0;i<s.length();i++){
+            dp[s[i]-'a'][0]++;
+            dp[s[i]-'a'][1]=s[i]-'a';
+        }
+        sort(dp.rbegin(),dp.rend());
+        if(dp[0][0]>(s.length()+1)/2) return "";
+        int k=0,n=s.length(),t=0;
+        for(int i=0;i<s.length();i++){
+            if(dp[k][0]==0 or k>26){
+                k++;
+            }
+            if(t==n or t==n+1){
+                t=1;
+            }
+            if(dp[k][0]>=1){
+
+                s[t]=dp[k][1]+'a';
+                dp[k][0]--;
+                t+=2;
+            }
+        }
+        return s;
+    }
+};
