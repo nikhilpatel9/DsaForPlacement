@@ -1,0 +1,53 @@
+class Solution
+{
+    public:
+        vector <int> search(string pattern, string text)
+        {
+            //code here.
+            vector<int>dp(pattern.length(),0);
+            int i=0,j=1,m=pattern.length();
+            while(j<m)
+            {
+                if(pattern[i]==pattern[j])
+                {
+                    dp[j]=i+1;
+                    j++;
+                    i++;
+                }else
+                {
+                    if (i != 0) {
+                    i = dp[i - 1];
+                } else {
+                    dp[j] = 0;
+                    j++;
+                }
+                }
+            }
+            i=0,j=0;
+            int n=text.length();
+            vector<int>res;
+            while(i<n)
+            {
+                
+                if(text[i]==pattern[j])
+                {
+                    i++;
+                    j++;
+                }else
+                {
+                    if (j != 0) {
+                    j = dp[j - 1];
+                } else {
+                    i++;
+                }
+                }
+                if(j==m)
+                {
+                    res.push_back(i-m+1);
+                    j=dp[j-1];
+                }
+            }
+            return res;
+        }
+     
+};
