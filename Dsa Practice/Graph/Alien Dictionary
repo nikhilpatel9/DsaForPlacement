@@ -1,0 +1,43 @@
+class Solution {
+  public:
+    string findOrder(string dict[], int n, int k) {
+        // code here
+        vector<int>topo(k,0);
+        map<int,vector<int>>graph;
+        for(int i=0;i<n-1;i++){
+            if(dict[i][0]!=dict[i+1][0]){
+                topo[dict[i+1][0]-'a']++;
+                graph[dict[i][0]-'a'].push_back(dict[i+1][0]-'a');
+            }else{
+                for(int j=1;j<min(dict[i].size(),dict[i+1].size());j++){
+                    if(dict[i][j]!=dict[i+1][j]){
+                        topo[dict[i+1][j]-'a']++;
+                        graph[dict[i][j]-'a'].push_back(dict[i+1][j]-'a');
+                        break;
+                    }
+                }
+            }
+        }
+        string s;
+        stack<int>q;
+        for(int i=0;i<k;i++){
+            if(topo[i]==0){
+                q.push(i);
+                s+='a'+i;
+            }
+        }
+        while(!q.empty()){
+            int node =q.top();
+            q.pop();
+            for(auto e:graph[node]){
+                if(topo[e]>1){
+                    topo[e]--;
+                }else{
+                    q.push(e);
+                    s+='a'+e;
+                }
+            }
+        }
+        return s;
+    }
+};
