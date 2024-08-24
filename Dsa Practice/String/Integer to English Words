@@ -1,0 +1,138 @@
+class Solution {
+public:
+    string solve(map<int,string>&mp,string s){
+        string k;
+        cout<<s<<"|";
+        if(s[0]!='0'){
+        k+=mp[s[0]-'0'];
+        k+=" ";
+        k+=mp[100];
+        }
+        if(s[1]=='1' || (s[1]=='2' and s[2]=='0')){
+            string p;
+            p+=s[1];
+            p+=s[2];
+            
+            k+=" ";
+            k+=mp[stoi(p)];
+            //cout<<k<<" ";
+        }else{
+            int t=s[1]-'0';
+            t*=10;
+            if(t!=0){
+                k+=" ";
+                k+=mp[t];
+            }
+            if(s[2]!='0') {
+               k+=" ";   
+               k+=mp[s[2]-'0'];
+            }
+        }
+        return k;
+    }
+    string numberToWords(int num) {
+        map<int, string> mp {
+        {0, "Zero"},
+        {1, "One"},
+        {2, "Two"},
+        {3, "Three"},
+        {4, "Four"},
+        {5, "Five"},
+        {6, "Six"},
+        {7, "Seven"},
+        {8, "Eight"},
+        {9, "Nine"},
+        {10, "Ten"},
+        {11, "Eleven"},
+        {12, "Twelve"},
+        {13, "Thirteen"},
+        {14, "Fourteen"},
+        {15, "Fifteen"},
+        {16, "Sixteen"},
+        {17, "Seventeen"},
+        {18, "Eighteen"},
+        {19, "Nineteen"},
+        {20, "Twenty"},
+        {30, "Thirty"},
+        {40, "Forty"},
+        {50, "Fifty"},
+        {60, "Sixty"},
+        {70, "Seventy"},
+        {80, "Eighty"},
+        {90, "Ninety"},
+        {100, "Hundred"},
+        {1000, "Thousand"},
+        {1000000, "Million"},
+        {1000000000, "Billion"}
+    };
+        vector<int>dp{100,1000,1000000,1000000000};
+        string s=to_string(num),str;
+        int n=s.length();
+        int k=n%3;
+        if(k==1){
+            str+=mp[s[0]-'0'];
+            if(n/3!=0){
+                str+=" ";
+                str+=mp[dp[n/3]];
+            }
+        }else if(k==2){
+            if(s[0]=='1' || (s[0]=='2' and s[1]=='0')){
+            string p;
+            p+=s[0];
+            p+=s[1];
+            cout<<p<<" ";
+            str+=mp[stoi(p)];
+            }else{
+                int t=s[0]-'0';
+                t*=10;
+                if(t!=0){
+                    str+=mp[t];
+                }
+                if(s[1]!='0'){ 
+                    str+=" ";   
+                    str+=mp[s[1]-'0'];
+                }
+            }
+            if(n/3!=0){
+                str+=" ";
+                str+=mp[dp[n/3]];
+            }
+        }
+        int t=n-k;
+        bool b=false;
+        string p;
+        for(int i=k;i<n;i++){
+            p+=s[i];
+            if(p.length()%3==0){
+                if(i!=2){
+                   str+=" ";
+                }
+                string l=solve(mp,p);
+                t-=3;
+                p="";
+                if(l.length()!=0){
+                str+=l;
+                if(t/3!=0){
+                    str+=" ";
+                    str+=mp[dp[t/3]];
+                   // str+=" ";
+                }
+                }
+                
+            }
+        }
+        while(str[str.length()-1]==' '){
+            str.pop_back();
+        } 
+        string ans;
+        ans+=str[0];
+        for(int i=1;i<str.length();i++){
+            if(str[i]==str[i-1] and str[i]==' '){
+                continue;
+            }else{
+                ans+=str[i];
+            }
+        }
+        return ans;
+    }
+};
