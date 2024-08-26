@@ -1,0 +1,24 @@
+class Solution {
+public:
+      void Subset(vector<vector<int>>&ans,vector<int>&res,int ind,vector<int>&nums,int k){
+        if(res.size()==k){
+        ans.push_back(res); 
+        return;
+        }   
+        for(int i=ind;i<nums.size();i++){
+           
+            res.push_back(nums[i]);
+            Subset(ans,res,i+1,nums,k);
+            res.pop_back();
+        }
+    }
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>>ans;
+        vector<int>res,nums;
+        for(int i=1;i<=n;i++){
+            nums.push_back(i);
+        }
+        Subset(ans,res,0,nums,k);
+        return ans;
+    }
+};
