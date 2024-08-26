@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int minMoves2(vector<int>& nums) {
+        int n=nums.size(),mid=n/2;
+        sort(nums.begin(),nums.end());
+        
+        int avg=nums[mid],ans=0;
+        for(int i=0;i<n;i++){
+            ans+=abs(avg-nums[i]);
+        }
+        return ans;
+    }
+};
