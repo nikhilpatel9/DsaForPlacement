@@ -1,0 +1,22 @@
+class Solution {
+public:
+    map<vector<int>,int>mp;
+    void Subset(vector<vector<int>>&ans,int ind,vector<int>&nums){
+           if(ind==nums.size()){
+            if(mp[nums]==0)
+               ans.push_back(nums);
+            mp[nums]++;
+            return;
+           } 
+            for(int i=ind;i<nums.size();i++){
+                swap(nums[i],nums[ind]);
+                Subset(ans,ind+1,nums);
+                swap(nums[i],nums[ind]);
+            }
+        }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>>ans;
+        Subset(ans,0,nums);
+        return ans;
+    }
+};
