@@ -1,0 +1,50 @@
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n=matrix.size()-1,m=matrix[0].size()-1;
+        int i=0,j=0;
+        int x=(n+1)/2;
+        int a=0,b=0,c=n,d=m;
+        int y=1;
+        while(x--){
+          for(int l=a;l<c;l++){
+             i=a,j=b,n=c,m=d;
+            int t=matrix[y][j];
+            for(int k=j;k<=m;k++){
+                int p=matrix[i][k];
+                matrix[i][k]=t;
+                t=p;
+                cout<<t<<" ";
+            }
+            i++;
+            for(int k=i;k<=n;k++){
+                int p=matrix[k][m];
+                matrix[k][m]=t;
+                t=p;
+                cout<<t<<" ";
+            }
+            m--;
+            for(int k=m;k>=j;k--){
+                int p=matrix[n][k];
+                matrix[n][k]=t;
+                t=p;
+                cout<<t<<" ";
+            }
+            n--;
+            for(int k=n;k>=i;k--){
+                int p=matrix[k][j];
+                matrix[k][j]=t;
+                t=p;
+                cout<<t<<" ";
+            }
+             matrix[i-1][j]=t; 
+            j++;
+            }
+            a++;
+            y++;
+            b++;
+            c--;
+            d--;
+        }
+    }
+};
