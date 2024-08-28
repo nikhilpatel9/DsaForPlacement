@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    void perm(vector<int>&arr,set<vector<int>>&st,int i,int n)
+    {
+        if(i==n-1) {
+            st.insert(arr); 
+            return;
+        }
+        for(int j=i;j<n;j++)
+        {
+            swap(arr[i],arr[j]);
+            perm(arr,st,i+1,n);
+            swap(arr[i],arr[j]);
+        }
+    }
+    vector<vector<int>> uniquePerms(vector<int> &arr ,int n) {
+        // code here
+        set<vector<int>>st;
+        vector<vector<int>>ans;
+        perm(arr,st,0,n);
+        for(auto e:st)
+        {
+            ans.push_back(e);
+        }
+        return ans;
+    }
+};
