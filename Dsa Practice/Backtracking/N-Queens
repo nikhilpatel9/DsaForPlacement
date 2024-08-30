@@ -1,0 +1,51 @@
+class Solution {
+public:
+    bool check(int c,int r,vector<string>&str,int n){
+        int col=c;
+        int row=r;
+        while(col>=0 and row>=0){
+            if(str[row][col]=='Q') return false;
+            col--;
+            row--;
+        }
+        row=r;
+        col=c;
+        while(col>=0){
+            if(str[row][col]=='Q') return false;
+            col--;
+        }
+        row=r;
+        col=c;
+        while(col>=0 and row<n){
+            if(str[row][col]=='Q') return false;
+            col--;
+            row++;
+        }
+        return true;
+    }
+    void solve(vector<vector<string>>&ans,vector<string>&str,int c,int n){
+        if(c==n)
+        {
+            ans.push_back(str);
+            return;
+        }
+        for(int r=0;r<n;r++){
+            if(check(c,r,str,n)){
+                str[r][c]='Q';
+                solve(ans,str,c+1,n);
+                str[r][c]='.';
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>>ans;
+        string s;
+        for(int i=0;i<n;i++){
+            s+='.';
+        }
+        cout<<s<<" ";
+        vector<string>str(n,s);
+        solve(ans,str,0,n);
+        return ans;
+    }
+};
