@@ -1,0 +1,26 @@
+#define ll int
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        queue<pair<TreeNode*,int>>q;
+        q.push({root,0});
+         ll ans=0;
+        while(!q.empty()){
+            ll n=q.size();
+            ll a=0;ll b=0;
+            int mini=q.front().second;
+            for(ll i=0;i<n;i++){
+                TreeNode* node=q.front().first;
+                ll idx=q.front().second;
+                idx-=mini;
+                q.pop();
+                if(i==0)a=idx;
+                if(i==n-1)b=idx;
+                if(node->left)q.push({node->left,2*idx+1});
+                if(node->right)q.push({node->right,2*idx+2});
+            }
+            ans=max(ans,b-a+1);
+        }
+        return ans;
+    }
+};
