@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        sort(nums.begin(),nums.end());
+        int t=nums[0],temp=0;
+        vector<pair<int,int>>p;
+        vector<int>q;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]==t)
+            {
+                temp++;
+            }else
+            {
+              p.push_back(make_pair(temp,t));
+                t=nums[i];
+                
+                temp=1;
+            }
+        }
+        p.push_back(make_pair(temp,t));
+        sort(p.begin(),p.end());
+        for(int i=0;i<k;i++)
+        {
+            q.push_back(p[p.size()-i-1].second);
+        }return q;
+    }
+};
