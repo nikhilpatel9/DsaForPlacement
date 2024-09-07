@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    // Function to detect cycle in an undirected graph.
+    bool solve(int ind,vector<int>adj[],vector<int>&visit,int prnt){
+        visit[ind]=1;
+        for(auto e:adj[ind]){
+            if(!visit[e]){
+                if(solve(e,adj,visit,ind)) return true;
+            }else if(e!=prnt){
+                return true;
+            }
+        }
+        return false;
+    }
+    bool isCycle(int V, vector<int> adj[]) {
+        // Code here
+        vector<int>visit(V,0);
+        int prnt=-1;
+        for(int i=0;i<V;i++){
+            if(!visit[i]){
+                if(solve(i,adj,visit,prnt)) return true;
+            }
+        }
+        return false;
+    }
+};
