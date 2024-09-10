@@ -1,0 +1,40 @@
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        
+        int n=board.size(),m=board[0].size();
+        vector<vector<int>>ans(n,vector<int>(m));
+        ans=board;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                
+                int row[]={-1,0,1,0,1,-1,1,-1};
+                int col[]={0,1,0,-1,1,-1,-1,1};
+                int zero=0,one=0;
+                for(int k=0;k<8;k++){
+                    int r=row[k]+i;
+                    int c=col[k]+j;
+                    if(r>=0 and c>=0 and r<n and c<m){
+                        if(ans[r][c]==0){
+                            zero++;
+                        }else{
+                            one++;
+                        }
+                    }
+                }
+                    if(ans[i][j]==1){
+                        if(one<2 or one>3){
+                            board[i][j]=0;
+
+                        }
+                    }else{
+                          if(one==3){
+                            board[i][j]=1;
+                        }
+                    }
+                
+            }
+        }
+       
+    }
+};
