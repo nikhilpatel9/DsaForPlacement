@@ -1,0 +1,61 @@
+class Solution {
+public:
+    string decodeString(string s) {
+        string ans="",p="";
+        stack<string>st;
+        for(int i=0;i<s.length();i++)
+        {
+            if(isdigit(s[i])) 
+            {
+                if(ans.length()>0)
+                {
+                    st.push(ans);
+                    ans="";
+                }
+                p+=s[i];
+               
+            }else if(s[i]=='[')
+            {
+                st.push(p);
+                p="";
+                //continue;
+            }else if(s[i]==']')
+            {
+                string k=st.top();
+                if(ans.length()==0||!isdigit(k[0]))
+                {
+                    while(true)
+                    {
+                    string j=st.top();
+                    if(isdigit(j[0])) break;
+                    st.pop();
+                    ans=j+ans;
+                    }
+                }
+                k=st.top();
+                st.pop();
+                cout<<k<<" ";
+                int l=stoi(k);
+                //cout<<l<<endl;
+                string x;
+                while(l--)
+                {
+                    x+=ans;
+                }
+                ans="";
+                st.push(x);
+            }else
+            {
+                ans+=s[i];
+            }
+        }
+        string res;
+        while(!st.empty())
+        {
+            res=st.top()+res;
+            st.pop();
+        }
+        if(ans.length()>0) res+=ans;
+        return res;
+    }
+};
