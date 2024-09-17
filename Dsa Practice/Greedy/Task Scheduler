@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        map<char,int>mp;
+        for(int i=0;i<tasks.size();i++){
+            mp[tasks[i]]++;
+        }
+        int t=0,cnt=0;
+        for(auto e:mp){
+            t=max(t,e.second);
+        }
+        for(auto e:mp){
+            if(e.second==t){
+                cnt++;
+            }
+        }
+        int ans=(t-1)*(n+1)+cnt,size=tasks.size();
+        return max(ans,size);
+    }
+};
