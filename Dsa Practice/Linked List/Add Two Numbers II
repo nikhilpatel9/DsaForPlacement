@@ -1,0 +1,59 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverse(ListNode* node){
+        ListNode* curr=node,*prev=NULL,*nxt=NULL;
+        while(curr){
+            nxt=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=nxt;
+        }
+        return prev; 
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *p1=reverse(l1);
+        ListNode *p2=reverse(l2);
+        ListNode *head=new ListNode(-1);
+        ListNode *ptr=head;
+        int t=0;
+        while(p1 and p2){
+            ListNode* p=new ListNode((p1->val+p2->val+t)%10);
+            t=(p1->val+p2->val+t)/10;
+            ptr->next=p;
+            p1=p1->next;
+            p2=p2->next;
+            ptr=ptr->next;
+        }
+        while(p1){
+            ListNode* p=new ListNode((p1->val+t)%10);
+            t=(p1->val+t)/10;
+            ptr->next=p;
+            p1=p1->next;
+            ptr=ptr->next;
+        }
+        while(p2){
+            ListNode* p=new ListNode((p2->val+t)%10);
+            t=(p2->val+t)/10;
+            ptr->next=p;
+            p2=p2->next;
+            ptr=ptr->next;
+        }
+        if(t>0){
+            ListNode* p=new ListNode(t);
+            //t=(p2->val+t)/10;
+            ptr->next=p;
+            ptr=ptr->next;
+        }
+        return reverse(head->next);
+    }
+};
