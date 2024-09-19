@@ -1,0 +1,56 @@
+class Solution {
+public:
+    string solve(int n,char a,char b,char c){
+        string s;
+        if(n<=3){
+            for(int i=0;i<n;i++)
+                 s+=a;
+            return s;     
+        }else if(n==4){
+                s+=a;
+                s+=b;
+                return s;
+        }else if(n<=8){
+              s+=b;
+              n%=5;
+              for(int i=0;i<n;i++)
+                 s+=a;
+            return s; 
+        }else{
+            s+=a;
+            s+=c;
+            return s;
+        }
+    }
+    string intToRoman(int num) {
+       map<int, char> mp{{1, 'I'}, {5, 'V'}, {10, 'X'}, {50, 'L'}, {100, 'C'}, {500, 'D'}, {1000, 'M'}};
+        string s;
+        while(num){
+            if(num>=1000){
+                int t=num%1000;
+                int l=num/1000;
+                for(int i=0;i<l;i++){
+                    s+='M';
+                }
+                num=t;
+            }
+            else if(num>=100){
+                int t=num%100;
+                int l=num/100;
+                s+=solve(l,mp[100],mp[500],mp[1000]);
+                num=t;
+            }
+            else if(num>=10){
+                int t=num%10;
+                int l=num/10;
+                s+=solve(l,mp[10],mp[50],mp[100]);
+                num=t;
+            }
+            else if(num>0){
+                s+=solve(num,mp[1],mp[5],mp[10]);
+                num=0;
+            }
+        }
+        return s;
+    }
+};
