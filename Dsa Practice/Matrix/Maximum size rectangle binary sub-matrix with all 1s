@@ -1,0 +1,47 @@
+/*You are required to complete this method*/
+
+class Solution{
+  public:
+    int maxArea(int M[MAX][MAX], int n, int m) {
+        // Your code here
+        for(int j=0;j<m;j++){
+            for(int i=0;i<n;i++){
+                if(i>0  and M[i][j]==1){
+                    M[i][j]+=M[i-1][j];
+                }
+            }
+        }
+       
+        int mx=0;
+        for(int i=0;i<n;i++){
+            stack<int>st;
+            st.push(0);
+            for(int j=1;j<m;j++){
+                while(!st.empty() and M[i][st.top()]>M[i][j]){
+                int k=st.top();
+                st.pop();
+                int t=-1;
+                if(!st.empty()){
+                 t=st.top();
+                }
+                mx=max(M[i][k]*(j-t-1),mx);
+                 // cout<<k<<" "<<M[i][k]<<" ";
+                }
+                st.push(j);
+            }
+            int j=m;
+             while(!st.empty() and M[i][st.top()]>0){
+                int k=st.top();
+                st.pop();
+                int t=-1;
+                if(!st.empty()){
+                 t=st.top();
+                }
+                mx=max(M[i][k]*(j-t-1),mx);
+                //  cout<<k<<" "<<M[i][k]<<" ";
+                }
+           
+        }
+        return mx;
+    }
+};
