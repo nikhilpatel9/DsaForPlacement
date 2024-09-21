@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int solve(int i,vector<vector<int>>&vt,int m,int n,vector<vector<vector<int>>>&dp){
+        if(i>=vt.size()){
+            return 0;
+        }
+       
+        if(m<0 or n<0) return INT_MIN;
+        if(m==0 and n==0)  return 0;
+         if(dp[i][m][n]!=-1) return dp[i][m][n];
+        int take=0,notTake=0;
+        if(m>=vt[i][0] and n>=vt[i][1]){
+        take=1+solve(i+1,vt,m-vt[i][0],n-vt[i][1],dp);
+        }
+        notTake=solve(i+1,vt,m,n,dp);
+        return dp[i][m][n]=max(take,notTake);
+    }
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>>vt;
+        
+        for(int i=0;i<strs.size();i++){
+            int one=0,zero=0;
+            for(int j=0;j<strs[i].length();j++){
+                if(strs[i][j]=='0'){
+                    zero++;
+                }else{
+                    one++;
+                }
+            }
+            cout<<zero<<one<<" ";
+            vt.push_back({zero,one});
+        }
+        //sort(vt.begin(),vt.end());
+        vector<vector<vector<int>>>dp(strs.size()+1,vector<vector<int>>(m+1,vector<int>(n+1,-1)));
+        return solve(0,vt,m,n,dp);
+    }
+};
