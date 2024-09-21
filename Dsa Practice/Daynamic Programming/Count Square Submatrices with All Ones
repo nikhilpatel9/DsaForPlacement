@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& row) {
+         int n=row.size(),m=row[0].size();
+       
+        int mx=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+               if(row[i][j]>0 and i>0 and j>0){
+               row[i][j]=min(min(row[i-1][j],row[i][j-1]),row[i-1][j-1])+1;
+            }
+            mx+=row[i][j];
+            }
+        }
+        return mx;
+    }
+};
