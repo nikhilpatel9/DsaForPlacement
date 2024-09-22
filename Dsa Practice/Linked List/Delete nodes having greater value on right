@@ -1,0 +1,50 @@
+/*
+
+The structure of linked list is the following
+
+struct Node
+{
+    int data;
+    Node* next;
+    
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+class Solution
+{
+    public:
+      Node* reverse(Node* head)
+    {
+        if (head == NULL || head->next == NULL)
+            return head;
+        Node* rest = reverse(head->next);
+        head->next->next = head;
+        head->next = NULL;
+        return rest;
+    }
+ Node* compute(Node* head)
+{
+    Node* current = head;
+    Node* prev=reverse(current);
+    Node* newHead = NULL;
+    Node* temp=prev;
+    while (temp) {
+        if (!newHead || temp->data >= newHead->data) {
+            Node* tempNext = temp->next;
+            temp->next = newHead;
+            newHead = temp;
+            temp = tempNext;
+        } else {
+            temp = temp->next;
+        }
+    }
+    head = newHead;
+    current=reverse(newHead);
+    return reverse(current);
+    }
+    
+};
+   
