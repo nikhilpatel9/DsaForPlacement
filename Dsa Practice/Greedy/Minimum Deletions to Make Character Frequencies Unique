@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int minDeletions(string s) {
+       map<char,int>mp;
+       for(int i=0;i<s.length();i++){
+        mp[s[i]]++;
+       }
+       map<int,int>np; 
+       int ans=0;
+       for(auto e:mp){
+        int cnt = e.second;
+        if(np[cnt]!=0){
+            while(np[cnt]!=0 and cnt>0){
+                cnt--;
+                ans++;
+            }
+        }
+        np[cnt]++;
+       }
+       return ans;
+    }
+};
