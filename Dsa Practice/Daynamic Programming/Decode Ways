@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int solve(int ind,string s,vector<int>&dp){
+        if(ind >= s.length()) {
+            return 1; 
+        }
+        if(dp[ind] != -1) return dp[ind]; 
+
+        string str;
+        int cnt = 0;
+        for(int i = ind; i < s.length(); i++) {
+            str += s[i];
+            if(str.length() > 2) break; 
+            int t = stoi(str);
+            if(t == 0 || t > 26) break; 
+            cnt += solve(i + 1, s, dp);
+        }
+        return dp[ind] = cnt;
+    }
+    int numDecodings(string s) {
+        if(s[0]=='0') return 0;
+        int cnt=0;
+        vector<int>dp(101,-1);
+         return solve(0,s,dp);
+         //return cnt;
+    }
+};
