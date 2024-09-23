@@ -1,0 +1,38 @@
+//User function Template for C++
+
+class Solution {
+  public:
+    bool isPalin(string s){
+        int n=s.length();
+        for(int i=0;i<n/2;i++){
+            if(s[i]!=s[n-i-1]){
+                return false;
+            }
+
+        }
+        return true;
+    }
+    void solve(string s,int i,vector<vector<string>>&ans,vector<string>&res){
+        if(i>=s.length()){
+            ans.push_back(res);
+            return;
+        }
+        string str;
+        for(int k=i;k<s.length();k++){
+            str+=s[k];
+            if(isPalin(str)){
+                res.push_back(str);
+                solve(s,k+1,ans,res);
+                res.pop_back();
+            }
+        }
+        return;
+    }
+    vector<vector<string>> allPalindromicPerms(string S) {
+        // code here
+        vector<vector<string>>ans;
+        vector<string>res;
+        solve(S,0,ans,res);
+        return ans;
+    }
+};
