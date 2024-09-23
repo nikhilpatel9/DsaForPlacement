@@ -1,0 +1,71 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+      vector<string>ans;
+      int k=0,l=0,t=0;
+      string s;
+      for(int i=0;i<words.size();i++)
+      {
+          if(maxWidth>=words[i].length()+k){
+                k+=words[i].length();
+                // if(words[i].length()+k!=maxWidth){
+                //     k++;
+                // }
+                k++;
+                t++;
+                cout<<k<<" "<<words[i]<<" "<<t<<"|";
+          }else{
+               
+                k-=t;
+                k=maxWidth-k;
+                t--;
+                if(t==0){
+                    cout<<words[i-1]<<" ";
+                    s+=words[l];
+                    while(k>0){
+                        s+=" ";
+                        k--;
+                    }
+                }else{
+                int m=(k%t),q=k/t;
+                for(int j=l;j<i;j++){
+                    s+=words[j];
+                    if(j!=i-1){
+                    for(int x=0;x<q;x++){
+                        s+=" ";
+                    }
+
+                     if(m>0){
+                        s+=" ";
+                        m--;
+                        }
+                    }
+                }
+                }
+              //  i--;
+                k=0;
+                t=0;
+                l=i;
+                ans.push_back(s);
+                s="";
+                k+=words[i].length();
+                k++;
+               
+                t++;
+                 
+          }
+      }        
+                for(int j=l;j<words.size();j++){
+                    s+=words[j];
+                    s+=" ";  
+                }
+                while(s.length()<maxWidth){
+                    s+=" ";
+                }
+                if(s.length()>maxWidth){
+                    s.pop_back();
+                }
+                ans.push_back(s);
+      return ans;
+    }
+};
