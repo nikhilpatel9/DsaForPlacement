@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int n=matrix.size(),m=matrix[0].size();
+        vector<vector<int>>M(n,vector<int>(m,0));
+         for(int j=0;j<m;j++){
+            for(int i=0;i<n;i++){
+                if(matrix[i][j]=='1'){
+                    M[i][j]=1;
+                }
+                if(i>0  and M[i][j]==1){
+                    M[i][j]+=M[i-1][j];
+                }
+            }
+        }
+       
+        int mx=0;
+        for(int i=0;i<n;i++){
+            stack<int>st;
+            st.push(0);
+            for(int j=1;j<m;j++){
+                while(!st.empty() and M[i][st.top()]>M[i][j]){
+                int k=st.top();
+                st.pop();
+                int t=-1;
+                if(!st.empty()){
+                 t=st.top();
+                }
+                mx=max(M[i][k]*(j-t-1),mx);
+                 // cout<<k<<" "<<M[i][k]<<" ";
+                }
+                st.push(j);
+            }
+            int j=m;
+             while(!st.empty() and M[i][st.top()]>0){
+                int k=st.top();
+                st.pop();
+                int t=-1;
+                if(!st.empty()){
+                 t=st.top();
+                }
+                mx=max(M[i][k]*(j-t-1),mx);
+                //  cout<<k<<" "<<M[i][k]<<" ";
+                }
+           
+        }
+        return mx;
+    }
+};
