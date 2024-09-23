@@ -1,0 +1,40 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+         if(s==t) return s;
+         if(s.size()<t.size()) return "";
+        vector<int>mp(128,0);
+        for(int i=0;i<t.length();i++){
+            mp[t[i]]++;
+        }
+        vector<int>dp(128,0);
+        int j=0,mx=INT_MAX,a=-1,b=-1,cnt=0;
+        for(int i=0;i<s.length();i++){
+            dp[s[i]]++;
+            if(mp[s[i]]>=dp[s[i]] and mp[s[i]]!=0){
+                cnt++;
+            }
+            while(j<=i and cnt==t.length()){
+                if(mx>i-j+1){
+                    mx=i-j+1;
+                    b=i;
+                    a=j;
+                    cout<<mx<<" ";
+                }
+                dp[s[j]]--;
+                if(dp[s[j]]<mp[s[j]] and mp[s[j]]!=0){
+                    cnt--;
+                } 
+                j++;
+            }
+            if(mx==t.length()) break;
+        }
+        
+        if(a==-1) return "";
+        string str;
+        for(int i=a;i<=b;i++){
+            str+=s[i];
+        }
+        return str;
+    }
+};
