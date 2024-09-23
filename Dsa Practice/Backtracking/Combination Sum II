@@ -1,0 +1,31 @@
+class Solution {
+public:
+ void comb(int ind,int target,vector<int>& can,vector<int>&res,vector<vector<int>>&ans,int n)
+    {
+      
+            if(target==0)
+            {
+                ans.push_back(res);
+                return;
+            }
+            
+        
+        
+        for(int i=ind;i<n;i++)
+        {
+            if(i>ind&&can[i]==can[i-1]) continue;
+            if(can[i]>target) break;
+            res.push_back(can[i]);
+            comb(i+1,target-can[i],can,res,ans,n);
+            res.pop_back();
+        }
+     //  comb(ind+1,target,can,res,ans,n); 
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+      vector<vector<int>>ans;
+      vector<int>res;
+      sort(candidates.begin(),candidates.end());  
+      comb(0,target,candidates,res,ans,candidates.size());
+      return ans;
+    }
+};
