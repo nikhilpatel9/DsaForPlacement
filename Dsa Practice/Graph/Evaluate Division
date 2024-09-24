@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        map<string,vector<pair<string,double>>>mp;
+        for(int i=0;i<equations.size();i++){
+            mp[equations[i][0]].push_back({equations[i][1],values[i]});
+            mp[equations[i][1]].push_back({equations[i][0],double(1)/values[i]});
+        }
+        vector<double>ans;
+        for(int i=0;i<queries.size();i++){
+            string a=queries[i][0];
+            string b=queries[i][1];
+            queue<pair<string,double>>q;
+            map<string,bool>visit;
+            q.push({a,1});
+            if(mp.find(a)==mp.end()){
+                ans.push_back(-1);
+            }else{
+            visit[a]=true;
+            while(!q.empty()){
+                string s=q.front().first;
+                double d=q.front().second;
+                q.pop();
+                if(s==b){
+                    ans.push_back(d);
+                    break;
+                }
+                for(auto e:mp[s]){
+                    if(visit[e.first]!=true){
+                       q.push({e.first,e.second*d});
+                       visit[e.first]=true;
+                    }
+                }
+            }
+            if(ans.size()==i){
+                ans.push_back(-1);
+            }
+            }
+        }
+        return ans;
+    }
+};
