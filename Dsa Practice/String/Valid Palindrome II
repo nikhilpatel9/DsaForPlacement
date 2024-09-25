@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool isPali(int i,int j,string s){
+       while(i<j){
+           if(s[i]!=s[j]){
+            return false;
+           }
+           i++;
+           j--;
+       }
+       return true;
+    }
+    bool validPalindrome(string s) {
+        int n=s.length();
+        int k=-1,p=-1;
+        for(int i=0;i<n/2;i++){
+            if(s[i]!=s[n-i-1]){
+                k=i;
+                p=n-i-1;
+                break;
+            }
+        }
+        if(k==-1) return true;
+        if(isPali(k+1,p,s)) return true;
+        if(isPali(k,p-1,s)) return true;
+        return false;
+    }
+};
