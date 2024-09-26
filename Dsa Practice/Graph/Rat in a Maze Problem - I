@@ -1,0 +1,49 @@
+// User function template for C++
+
+class Solution {
+  public:
+  void solve(int n,int m,vector<vector<int>>&dp,vector<vector<int>>&mat,vector<string>&ans,int i,int j,string &s){
+      if(i<0 or j<0 or i>=n or j>=m) return;
+      if(i==n-1 and j==m-1){
+          ans.push_back(s);
+          return;
+      }
+       int row[]={-1,0,1,0};
+       int col[]={0,1,0,-1};
+       for(int k=0;k<4;k++){
+            int r=i+row[k];
+            int c=j+col[k];
+            if(r>=0 and c>=0 and r<n and c<m and mat[r][c]==1 and !dp[r][c]){
+               dp[r][c]=1;
+                if(k==0){
+                  s+='U';
+                }
+                else if(k==1){
+                  s+='R';
+                }else if(k==2)
+                {
+                  s+='D';
+                }
+                else
+                  { s+='L';}
+                  //cout<<s<<" "<<c;
+               solve(n,m,dp,mat,ans,r,c,s);
+                dp[r][c]=0;
+                s.pop_back();
+                
+        }
+       }
+    
+  }
+    vector<string> findPath(vector<vector<int>> &mat) {
+        // Your code goes here
+        int n=mat.size(),m=mat[0].size();
+        vector<vector<int>>dp(n,vector<int>(m,0));
+        vector<string>ans;
+        string s;
+        dp[0][0]=1;
+        if(mat[0][0]==0 or mat[n-1][m-1]==0) return {};
+        solve(n,m,dp,mat,ans,0,0,s);
+        return ans;
+    }
+};
