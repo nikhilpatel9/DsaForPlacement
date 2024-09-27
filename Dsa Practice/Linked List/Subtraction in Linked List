@@ -1,0 +1,142 @@
+//User function Template for C++
+
+class Solution {
+public:
+    string solve(string s1,string s2)
+    {
+        int i=s2.length()-1,j=s1.length()-1;
+        string s;
+         
+        while(i>=0)
+        {
+            if(s1[j]>=s2[i])
+            {
+                s+=to_string(s1[j]-s2[i]);
+                i--;
+                j--;
+               // cout<<s<<endl;
+            }else
+            {
+                int t;
+                for(int k=j-1;k>=0;k--)
+                {
+                    if(s1[k]!='0')
+                    {
+                        s1[k]-=1;
+                        //cout<<s1[k];
+                        t=k;
+                        break;
+                        
+                    }
+                    
+                }
+                //cout<<j<<" ";
+                for(int k=t+1;k<j;k++)
+                {
+                    s1[k]='9';
+                }
+                int t1=s1[j]-s2[i]+10;
+               // cout<<t1<<" ";
+                
+                s+=to_string(t1);
+                i--;
+                j--;
+            }
+        }
+        
+        while(j>=0)
+        {
+            s+=s1[j];
+            j--;
+        }
+        string str;
+        bool b=1;
+        for(int i=s.length()-1;i>=0;i--)
+        {
+            if(s[i]=='0'&&b==1)
+            {
+                continue;
+            }else
+            {
+                b=0;
+                str+=s[i];
+            }
+        }// cout<<str;
+        return str;
+    }
+    Node* subLinkedList(Node* head1, Node* head2) {
+        // Your implementation of subLinkedList goes here
+        // Make sure to return the head of the resulting linked list
+        string s1="",s3;
+        string s2="",s4;
+        while(head1)
+        {
+            s1+=to_string(head1->data);
+            head1=head1->next;
+        }
+        while(head2)
+        {
+            s2+=to_string(head2->data);
+            head2=head2->next;
+        }
+        bool b=0,c=0;
+        for(int i=0;i<s1.length();i++)
+        {
+            if(s1[i]=='0'&&b==0)
+            {
+                continue;
+            }else
+            {
+                b=1;
+                s3+=s1[i];
+            }
+        }
+        for(int i=0;i<s2.length();i++)
+        {
+            if(s2[i]=='0'&&c==0)
+            {
+                continue;
+            }else
+            {
+                c=1;
+                s4+=s2[i];
+            }
+        }
+       //cout<<s3<<s4;
+        s1=s3,s2=s4;
+       
+        string s5;
+        if(s1.length()>s2.length())
+        {
+            s5=solve(s1,s2);
+        }else if(s1.length()==s2.length())
+        {
+            
+            for(int i=0;i<s1.length();i++)
+            {
+                if(s1[i]>s2[i])
+                {
+                    s5=solve(s1,s2);
+                    break;
+                }else if(s1[i]<s2[i])
+                {
+                    s5=solve(s2,s1);
+                    break;
+                }
+            }
+            
+        }else
+        {
+            s5=solve(s2,s1);
+        }
+        if(s5.length()==0) s5+='0';
+        Node *root=new Node(0),*temp=NULL;
+        temp=root;
+        for(int i=0;i<s5.length();i++)
+        {
+            temp->next=new Node(s5[i]-'0');
+            temp=temp->next;
+        }
+        return root->next;
+    }
+};
