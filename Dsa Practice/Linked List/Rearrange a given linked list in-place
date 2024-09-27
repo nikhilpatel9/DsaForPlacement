@@ -1,0 +1,42 @@
+/*
+
+The structure of linked list is the following
+
+struct Node
+{
+    int data;
+    Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    Node *inPlace(Node *head) {
+        // Code here
+        Node* root = head;
+        deque<int> q;    
+        while (root) {
+            q.push_back(root->data);
+            root = root->next;
+        }
+        q.pop_front();
+        Node* temp = head;
+        while (!q.empty()) {   
+            Node* t = new Node(q.back());  
+            q.pop_back();
+            temp->next = t;  
+            temp = temp->next;
+            if (q.size() == 0) break;    
+             Node* p = new Node(q.front());  
+            q.pop_front();
+            temp->next = p;
+            temp = temp->next;  
+        }
+        return head;
+    }
+};
