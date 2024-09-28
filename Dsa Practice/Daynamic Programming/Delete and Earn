@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int solve(int ind,vector<int>&arr,vector<int>&dp){
+        if(ind>=arr.size()) return 0;
+        if(dp[ind]!=-1) return dp[ind];
+        int take=0,notTake=0;
+        take=arr[ind]+solve(ind+2,arr,dp);
+        notTake+=solve(ind+1,arr,dp);
+        return dp[ind]=max(take,notTake);
+    }
+    int deleteAndEarn(vector<int>& nums) {
+        map<int,int>mp;
+        for(int i=0;i<nums.size();i++){
+            mp[nums[i]]++;
+        }
+        vector<int>num;
+        for(auto e:mp){
+            num.push_back(e.first);
+        }
+        sort(num.begin(),num.end());
+        vector<int>arr;
+        for(int i=0;i<num.size();i++){
+            if(i==0){
+                arr.push_back(num[i]*mp[num[i]]);
+            }else{
+                if(num[i]-num[i-1]==1){
+                    arr.push_back(num[i]*mp[num[i]]);
+                }else{
+                    arr.push_back(0);
+                    arr.push_back(num[i]*mp[num[i]]);
+                }
+            }
+        }
+        vector<int>dp(arr.size()+2,-1);
+        return solve(0,arr,dp);
+    }
+};
