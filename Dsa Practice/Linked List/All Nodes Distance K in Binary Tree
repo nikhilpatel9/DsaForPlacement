@@ -1,0 +1,77 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        queue<TreeNode*>q;
+        unordered_map<TreeNode*,TreeNode*>parent;
+        q.push(root);
+        map<int,bool>mp;
+        mp[target->val]=true;
+        TreeNode *tar;
+        while(!q.empty())
+        {
+            TreeNode*temp=q.front();
+            q.pop();
+            // if(temp){
+            if(temp->val==target->val)
+            {
+                tar=temp;
+            }
+            if(temp->left)
+            {
+                   parent[temp->left]=temp;
+                   q.push(temp->left);
+            }if(temp->right)
+            {
+                    parent[temp->right]=temp;
+                    q.push(temp->right);
+            }
+            // }
+        }
+        int level=0;
+        queue<TreeNode*>qu;
+        qu.push(tar);
+        while(!qu.empty())
+        {
+            int size=qu.size();
+            level++;
+            if(level==k+1) break;
+            for(int i=0;i<size;i++)
+            {
+                TreeNode*temp=qu.front();
+                qu.pop();
+                if(temp->left&&!mp[temp->left->val])
+                {
+                    mp[temp->left->val]=1;
+                    qu.push(temp->left);
+                }
+                 if(temp->right&&!mp[temp->right->val])
+                {
+                    mp[temp->right->val]=1;
+                    qu.push(temp->right);
+                }
+                if(parent[temp]&&!mp[parent[temp]->val])
+                {
+                    mp[parent[temp]->val]=1;
+                    qu.push(parent[temp]);
+                }
+            }
+        }
+        vector<int>ans;
+        while(!qu.empty())
+        {
+            ans.push_back(qu.front()->val);
+            qu.pop();
+        }
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
