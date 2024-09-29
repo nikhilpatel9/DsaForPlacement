@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int solve(vector<vector<int> >& flights,int src,int dst,int k,vector<vector<int> >& dp){
+        if(src==dst) return 0;
+        if(k<0) return INT_MAX;
+
+        if(dp[src][k]!=-1) return dp[src][k];
+
+        int ans=INT_MAX;
+        for(int i=0;i<flights.size();i++){
+            if(flights[i][0]==src){
+                int cost=solve(flights,flights[i][1],dst,k-1,dp);
+                if(cost==INT_MAX) continue;
+                ans=min(ans,cost+flights[i][2]);
+            }
+        }
+        return dp[src][k]=ans;
+    }
+
+    int findCheapestPrice(int n, vector<vector<int> >& flights, int src, int dst,int k) {
+        int ans = 0;
+        vector<vector<int> > dp(n+1,vector<int>(k+1,-1));
+        ans = solve(flights, src, dst, k,dp);
+        if (ans == INT_MAX) {
+            return -1;
+        }
+        return ans;
+    }
+};
