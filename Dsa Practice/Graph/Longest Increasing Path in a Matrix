@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int solve(int i,int j,vector<vector<int>>&mat,int n,int m,vector<vector<int>>&dp){
+        //queue<pair<pair<int,int>,int>>q;
+        int cnt=1;
+        if(dp[i][j]!=-1) return  dp[i][j];
+            int row[]={-1,0,1,0};
+            int col[]={0,1,0,-1};
+            for(int t=0;t<4;t++){
+                int r=row[t]+i;
+                int c=col[t]+j;
+                if(r>=0 and c>=0 and r<n and c<m and mat[r][c]>mat[i][j]){
+                    cnt=max(cnt,1+solve(r,c,mat,n,m,dp));
+                }
+            }
+        
+        return dp[i][j]=cnt;
+    }
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+       
+        int mx=1,n=matrix.size(),m=matrix[0].size();
+         vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                int k=solve(i,j,matrix,n,m,dp);
+                mx=max(k,mx);
+            }
+        }
+        return mx;
+    }
+};
