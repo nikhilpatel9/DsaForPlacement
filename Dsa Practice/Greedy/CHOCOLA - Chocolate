@@ -1,0 +1,33 @@
+#include <iostream>
+#include <algorithm> // for sort function
+using namespace std;
+
+int minimumCostOfBreaking(int horizontalCost[], int verticalCost[], int m, int n) {
+    int totalCost = 0;
+  sort(horizontalCost, horizontalCost + m, greater<int>());
+    sort(verticalCost, verticalCost + n, greater<int>());
+    int horizontalParts = 1, verticalParts = 1; // Initialize current width as 1
+
+    int i = 0, j = 0;
+    while (i < m && j < n) {
+        if (horizontalCost[i] > verticalCost[j]) {
+            totalCost += horizontalCost[i] * verticalParts;
+            horizontalParts++;
+            i++;
+        } else {
+            totalCost += verticalCost[j] * horizontalParts;
+            verticalParts++;
+            j++;
+        }
+    }
+    int remainingHorizontalCost = 0;
+    while (i < m)
+        remainingHorizontalCost += horizontalCost[i++];
+    totalCost += remainingHorizontalCost * verticalParts;
+    int remainingVerticalCost = 0;
+    while (j < n)
+        remainingVerticalCost += verticalCost[j++];
+    totalCost += remainingVerticalCost * horizontalParts;
+
+    return totalCost;
+}
