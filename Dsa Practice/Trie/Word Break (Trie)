@@ -1,0 +1,32 @@
+//User function template for C++
+
+class Solution{
+    public:
+    // A : given string to search
+    // B : vector of available strings
+    
+    int wordBreak(string s, vector<string> &wordDict) {
+        //code here
+        int index = s.length() - 1;
+        vector<int> dp(s.length()+1, 0);
+        dp[s.length()] = 1;
+
+        while (index >= 0) {
+            for (int i = 0; i < wordDict.size(); i++) {
+                string substring = s.substr(index, wordDict[i].length());
+                if (substring == wordDict[i]) {
+                   
+                    dp[index] = dp[index + wordDict[i].length()];
+                   // cout<<wordDict[i]<<" ";
+                }
+                if (dp[index]) {
+                    break;
+                }
+            }
+            
+            index--;
+        }
+
+        return dp[0]; 
+    }
+};
