@@ -1,0 +1,43 @@
+/* Structure for tree and linked list
+
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+ */
+
+// This function should return head to the DLL
+class Solution {
+  public:
+    void inOrder(Node* root,Node* &head,Node* &prev){
+        if(!root) return ;
+        inOrder(root->left,head,prev);
+        if(head==NULL){
+          head=new Node(root->data);
+          prev=head;
+          head->left=NULL;
+          //head=head->right;
+        }else{
+        Node *ptr=new Node(root->data);
+        //head->right=ptr;
+        prev->right=ptr;
+        ptr->left=prev;
+        //head=head->right;
+        prev=ptr;
+        }
+        inOrder(root->right,head,prev);
+    }
+    Node* bToDLL(Node* root) {
+        // code here
+        Node* head=NULL,*prev=NULL;
+        inOrder(root,head,prev);
+        return head;
+    }
+};
