@@ -1,4 +1,6 @@
-vector<int> eventualSafeNodes(vector<vector<int>>& G) {
+class Solution {
+public:
+   vector<int> eventualSafeNodes(vector<vector<int>>& G) {
     int N = G.size();
     vector<vector<int>> R(N);
     vector<int> outdegree(N), safe(N), ans;
@@ -23,3 +25,4 @@ vector<int> eventualSafeNodes(vector<vector<int>>& G) {
     }
     return ans;
 }
+};
