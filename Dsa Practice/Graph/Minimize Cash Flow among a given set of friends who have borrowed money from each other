@@ -1,0 +1,45 @@
+class Solution{
+    public:
+    int getMin(vector<int> &amount){
+        int minInd = 0;
+        for(int i = 1; i<amount.size();i++){
+            if(amount[i] < amount[minInd]){
+                minInd = i;
+            }
+        }
+        return minInd;
+    }
+    int getMax(vector<int> &amount){
+        int maxInd = 0;
+        for(int i = 1; i<amount.size();i++){
+            if(amount[i] > amount[maxInd]){
+                maxInd = i;
+            }
+        }
+        return maxInd;
+    }
+    void solve(vector<int> &amount,vector<vector<int>> &ans){
+        int maxC = getMax(amount);
+        int maxD = getMin(amount);
+        if(amount[maxC] == 0 && amount[maxD] == 0){
+            return ;
+        }
+        int mini = min(-amount[maxD],amount[maxC]);
+        amount[maxC]-=mini;
+        amount[maxD]+=mini;
+        ans[maxD][maxC] = mini;
+        solve(amount,ans);
+    }
+        vector<vector<int>> minCashFlow(vector<vector<int>> &arr, int n)
+        {
+            vector<int> amount(n,0);
+            vector<vector<int>> ans(n,vector<int>(n,0));
+            for(int i = 0 ; i <n; i++){
+                for(int j = 0; j<n; j++){
+                    amount[i]+=(arr[j][i]-arr[i][j]);
+                }
+            }
+            solve(amount,ans);
+            return ans;
+        }
+}
