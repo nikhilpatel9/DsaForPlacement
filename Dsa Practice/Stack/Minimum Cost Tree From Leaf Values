@@ -1,0 +1,31 @@
+class Solution {
+public:
+     int solve(vector<int>& nums,int i,int j,map<pair<int,int>,int>& m,
+     vector<vector<int>>& dp){
+       if(i>=j){
+          return 0;
+       }
+       int result=INT_MAX;
+       if(dp[i][j]!=-1){
+          return dp[i][j];
+       }
+
+        for (int k = i;k<j; ++k) {
+           result=min( result,m[{i,k}]*m[{k+1,j}]+solve(nums,i,k,m,dp)+solve(nums, k+1, j,m,dp));
+        }
+
+        return dp[i][j]=result;
+     }
+
+    int mctFromLeafValues(vector<int>& arr) {
+        map<pair<int,int>,int> m;
+        for(int i=0;i<arr.size();i++){
+            m[{i,i}]=arr[i];
+           for(int j=i+1;j<arr.size();j++){
+               m[{i,j}]=max(arr[j],m[{i,j-1}]);
+           } 
+        }
+        vector<vector<int>> dp(arr.size()+1,vector<int>(arr.size()+1,-1));
+        return solve(arr,0,arr.size()-1,m,dp);
+    }
+};
