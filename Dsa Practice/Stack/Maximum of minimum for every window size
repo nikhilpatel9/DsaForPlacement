@@ -1,0 +1,44 @@
+
+class Solution
+{
+    public:
+    //Function to find maximum of minimums of every window size.
+    vector <int> maxOfMin(int arr[], int n)
+    {
+             stack<int> s;
+          vector<int> ans(n,0);
+        for(int i=0; i<n; i++){
+            while(!s.empty() && arr[s.top()]>=arr[i]){
+                int tp = s.top();
+                s.pop();
+                int curr = 0;
+                if(s.empty()){
+                    curr = i;
+                    ans[curr-1] = max(ans[curr-1], arr[tp]);
+                }
+                else{
+                    curr = i-s.top()-1;
+                }
+                ans[curr-1] = max(ans[curr-1], arr[tp]);
+            }
+            s.push(i);
+        }
+        while(!s.empty()){
+            int tp = s.top();
+            s.pop();
+            int curr = 0;
+            if(s.empty()){
+                curr = n;
+            }
+            else{
+                curr = n-s.top()-1;
+            }
+            ans[curr-1] = max(ans[curr-1], arr[tp]);
+        }
+
+        for(int i=n-2; i>=0; i--){
+            ans[i] = max(ans[i], ans[i+1]);
+        }
+        return ans;
+    }
+};
