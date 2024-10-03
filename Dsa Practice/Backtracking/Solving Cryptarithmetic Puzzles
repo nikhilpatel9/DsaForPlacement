@@ -1,0 +1,67 @@
+class Solution {
+public:
+    bool isSolvable(vector<string>& words, string result) {
+        for (auto & word : words) {
+            addToChars(word);
+        } 
+        addToChars(result);
+        vector<int> matching(26, -1), taken(10, 0);
+        return dfs(0, matching, taken, words, result);
+    }
+
+private:
+    vector<char> chars;
+    int initials[26];
+    int charToIdx[26];
+
+    void addToChars(string& word) {
+        if (word.size() > 1) {
+            initials[word[0] - 'A'] = 1;
+        }
+        for (char c : word) {
+            if (find(chars.begin(), chars.end(), c) == chars.end()) {
+                chars.push_back(c);
+                charToIdx[c - 'A'] = chars.size() - 1;
+            }
+        }
+    }
+
+    bool evaluate(vector<int>& matching, vector<string>& words, string& result) {
+        int left = 0;
+        for (auto & word : words) {
+            int cur = 0;
+            for (char c : word) {
+                cur = cur * 10 + matching[charToIdx[c - 'A']];
+            }
+            left += cur;
+        }
+        int right = 0;
+        for (char c : result) {
+            right = right * 10 + matching[charToIdx[c - 'A']];
+        }
+        if (left == right) {
+            for (auto p : matching) {
+                cout << p << " ";
+            }
+        }
+        return left == right;
+    }
+
+    bool dfs(int i, vector<int>& matching, vector<int>& taken, vector<string>& words, string& result) {
+        if (i == chars.size()) {
+            return evaluate(matching, words, result);
+        }
+        for (int j = 0; j < 10; ++j) {
+            if ((initials[chars[i] - 'A'] == 1 && j == 0) || taken[j]) {
+                continue;
+            }
+            taken[j] = 1;
+            matching[i] = j;
+            if (dfs(i + 1, matching, taken, words, result)) {
+                return true;
+            }
+            taken[j] = 0;
+        }
+        return false;
+    }
+};
