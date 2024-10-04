@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int search(vector<int> adj[], vector<int>& informTime, int start, int n, vector<int>& mem)
+    {
+        if (mem[start] != -1)
+        {
+            return mem[start];
+        }
+
+        int t = -1;
+        for (int e : adj[start])
+        {
+            t = max(t, search(adj, informTime, e, n, mem));
+        }
+
+        mem[start] = t != -1 ? informTime[start] + t : 0;
+        return mem[start];
+    }
+
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        vector<int> mem(n, -1);
+        vector<int> adj[n];
+        for (auto i = 0; i < n; i++)
+        {
+            if (manager[i] != -1) adj[manager[i]].push_back(i);
+        }
+        int t = search(adj, informTime, headID, n, mem);
+        return t;
+    }
+};
