@@ -1,0 +1,30 @@
+class Solution {
+public:
+
+    int dp[10][5001];
+    int solve(int i, int n, vector<vector<int>> &nums)
+    {
+        if(n == 0)
+            return 1;
+        if(n == 1)
+            return nums[i].size();
+        if(dp[i][n] != -1)
+            return dp[i][n];
+        int ret = 0;
+        for(int j = 0; j < nums[i].size() ; j++)
+        {
+            ret = (ret + solve(nums[i][j], n-1, nums)) % 1000000007;
+        }
+        return dp[i][n] = ret;
+    }
+    int knightDialer(int n) {
+        int ans = 0;
+        vector<vector<int>> nums = {{4, 6}, {8, 6}, {7, 9}, {4, 8}, {0, 3, 9}, {}, {0, 1, 7}, {2, 6}, {1, 3}, {2, 4}};
+        memset(dp, -1, sizeof(dp));
+        for(int i = 0 ; i < 10 ; i++)
+        {
+            ans = (ans + solve(i, n-1, nums)) % 1000000007;
+        }
+        return ans;
+    }
+};
