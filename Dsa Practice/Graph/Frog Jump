@@ -1,0 +1,22 @@
+class Solution {
+public:
+    map<int,int>mp;
+    vector<int>s;
+    vector<vector<int>>dp;
+    bool fun(int ind,int k)
+    {
+        if(k<=0)return 0;
+        if(ind==s.size()-1)return 1;
+        if(!mp[s[ind]+k])return 0;
+        if(dp[ind][k]!=-1)return dp[ind][k];
+        return dp[ind][k]=(fun(mp[s[ind]+k]-1,k)||fun(mp[s[ind]+k]-1,k-1)||fun(mp[s[ind]+k]-1,k+1));
+    }
+    bool canCross(vector<int>& stones) 
+    {
+        dp.resize(2001,vector<int>(2001,-1));
+        int n=stones.size();
+        s=stones;
+        for(int i=0;i<n;i++)mp[stones[i]]=i+1;
+        return fun(0,1);    
+    }
+};
